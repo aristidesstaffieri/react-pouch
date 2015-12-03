@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-export default class AddTodo extends Component {
+class AddTodo extends Component {
   render() {
     return (
       <div>
@@ -13,6 +13,7 @@ export default class AddTodo extends Component {
   }
 
   handleClick(e) {
+    console.log(this.props)
     const node = this.refs.input
     const text = node.value.trim()
     this.props.onAddClick(text)
@@ -23,3 +24,5 @@ export default class AddTodo extends Component {
 AddTodo.propTypes = {
   onAddClick: PropTypes.func.isRequired
 }
+
+export default AddTodo

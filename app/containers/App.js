@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { createSelector } from 'reselect'
 import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions/actions'
 import AddTodo from '../components/AddTodo'
 import TodoList from '../components/TodoList'
 import Footer from '../components/Footer'
+import Test from '../components/Test'
 
 class App extends Component {
   render() {
@@ -20,6 +22,7 @@ class App extends Component {
           onTodoClick={index =>
             dispatch(completeTodo(index))
           } />
+        <Test />
         <Footer
           filter={visibilityFilter}
           onFilterChange={nextFilter =>
@@ -53,14 +56,18 @@ function selectTodos(todos, filter) {
   }
 }
 
-// Which props do we want to inject, given the global state?
-// Note: use https://github.com/faassen/reselect for better performance.
-function select(state) {
-  return {
-    visibleTodos: selectTodos(state.todos, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
-  }
-}
+const visibilityFilterSelector = state => state.visibilityFilter
+const todosSelector = state => state.todos
 
-// Wrap the component to inject dispatch and state into it
-export default connect(select)(App)
+export const visibleTodosSelector = createSelector(
+  visibilityFilterSelector,
+  todosSelector,
+  (visibilityFilter, todos) => {
+    return {
+      visibleTodos: selectTodos(todos, visibilityFilter),
+      visibilityFilter
+    }
+  }
+)
+
+export default connect(visibleTodosSelector)(App)

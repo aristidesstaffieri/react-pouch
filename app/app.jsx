@@ -9,9 +9,12 @@ import ReactDOM from 'react-dom'
 import { createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { devTools, persistState } from 'redux-devtools'
+import {CompositeMonitor, debugPanelDecorator} from 'redux-devtools-monitor-dock'
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 import Main from './containers/App'
 import reducer from './reducers/reducers'
+
+const topRightBottomDebugPanelDecorator = debugPanelDecorator({top:true, right:true, bottom:true})
 
 const finalCreateStore = compose(
   devTools(),
